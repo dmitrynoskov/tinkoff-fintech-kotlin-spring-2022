@@ -22,7 +22,7 @@ class CargoAircraft(override val manufacturer: String, override val model: Strin
 
     fun loadCargo(weight: Int) {
         if (weight > availableWeight) {
-            println("Unable to load $weight tons, it's ${availableWeight - weight} tons of overload")
+            println("Unable to load $weight tons, it's ${weight - availableWeight} tons of overload")
         } else {
             currentWeight += weight
             println("$weight tons was loaded")

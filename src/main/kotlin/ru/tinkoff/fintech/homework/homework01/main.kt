@@ -34,6 +34,11 @@ fun main() {
     }
 
     println("--------------")
+    airbus.prepareForFlight()
+    airbus.loadPeople(300)
+    airbus.flight("Kansas city")
+
+    println("--------------")
     cargo.loadCargo(500)
     cargo.loadCargo(10)
     cargo.flight("Vancouver", "Montreal")

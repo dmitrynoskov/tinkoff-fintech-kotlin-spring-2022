@@ -23,6 +23,10 @@ class PassengersAircraft(
         }
     }
 
+    fun flight(destination: String) {
+        flight(origin = "New York City", destination = destination) // Let's have base hub in New York
+    }
+
     override fun getInfo() {
         println(
             "An airliner $name is a $fuselageType aircraft produced by $manufacturer company"
@@ -32,7 +36,7 @@ class PassengersAircraft(
 
     fun loadPeople(count: Int) {
         if (count > availablePassengersCount) {
-            println("Unable to load $count people, it's ${availablePassengersCount - count} overbooked tickets")
+            println("Unable to load $count people, it's ${count - availablePassengersCount} overbooked tickets")
         } else {
             currentPassengersCount += count
             println("$count people was loaded")
