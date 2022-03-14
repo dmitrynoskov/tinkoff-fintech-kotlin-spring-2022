@@ -1,5 +1,7 @@
 package ru.tinkoff.fintech.homework.homework01
 
+import java.lang.IllegalArgumentException
+
 class PassengersAircraft(
     override val manufacturer: String,
     override val model: String,
@@ -35,7 +37,13 @@ class PassengersAircraft(
     }
 
     fun loadPeople(count: Int) {
-        if (count > availablePassengersCount) {
+        if (count < 0) {
+            throw IllegalArgumentException("People's count can't be negative!")
+        }
+        if (count == 0) {
+            println("There are no people to load")
+        }
+        else if (count > availablePassengersCount) {
             println("Unable to load $count people, it's ${count - availablePassengersCount} overbooked tickets")
         } else {
             currentPassengersCount += count
