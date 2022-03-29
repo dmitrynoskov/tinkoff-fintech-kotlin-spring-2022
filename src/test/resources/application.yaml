@@ -1,0 +1,6 @@
+spring:
+  application.name: spring-app
+  profiles.active: test
+server.port: 9000
+
+person.information.address: http://localhost:9001

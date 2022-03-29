@@ -14,7 +14,7 @@ class PersonService(
     fun addPerson(passportNumber: Int): Person {
         require(passportNumber > 0 && passportNumber.toString().length == 6) { "Номер паспорта должен содержать ровно 6 цифр!" }
         val person = personInformationClient.getPerson(passportNumber)
-        requireNotNull(person) { "Сервис не смог найти данные человека!" }
+        checkNotNull(person) { "Сервис не смог найти данные человека!" }
         personDatabase.savePerson(person)
         return person
     }
