@@ -18,7 +18,6 @@ class PersonInformationClient(
     } catch (e: HttpClientErrorException.NotFound) {
         null
     }
-
 }
 
 private const val GET_PERSON_BY_PASSPORT = "/passport?number={passportNumber}"
