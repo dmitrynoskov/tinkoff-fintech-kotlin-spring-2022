@@ -6,5 +6,5 @@ data class Person(
     val name: String,
     val surname: String,
     val birthDate: LocalDate,
-    val passportNumber: Int
+    val passportNumber: String
 )

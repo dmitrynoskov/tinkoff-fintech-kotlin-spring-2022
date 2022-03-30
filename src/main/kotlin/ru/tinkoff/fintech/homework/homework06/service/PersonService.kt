@@ -11,22 +11,27 @@ class PersonService(
     private val personDatabase: PersonDatabase
 ) {
 
-    fun addPerson(passportNumber: Int): Person {
-        require(passportNumber > 0 && passportNumber.toString().length == 6) { "Номер паспорта должен содержать ровно 6 цифр!" }
+    fun addPerson(passportNumber: String): Person {
+        validateNumber(passportNumber)
         val person = personInformationClient.getPerson(passportNumber)
         checkNotNull(person) { "Сервис не смог найти данные человека!" }
         personDatabase.savePerson(person)
         return person
     }
 
-    fun getPersonByPassportNumber(passportNumber: Int): Person {
+    fun getPersonByPassportNumber(passportNumber: String): Person {
+        validateNumber(passportNumber)
         val person = personDatabase.getPersonByPassport(passportNumber)
         return requireNotNull(person) { "Человека с такими паспортными данными нет в базе!" }
     }
 
-    fun findPersonsBySurnameWithPagination(surname: String, pageSize: Int, page: Int): List<Person> {
+    fun findPersonsByNameWithPagination(name: String, pageSize: Int, page: Int): List<Person> {
         require(page > 0 && pageSize > 0) { "Номер и размер странцы должны быть положительным числом!" }
-        return personDatabase.findPersonsBySurnameWithPagination(surname, pageSize, page)
+        return personDatabase.findPersonsByNameWithPagination(name, pageSize, page)
+    }
+
+    private fun validateNumber(passportNumber: String) {
+        require(passportNumber.length == 6 && passportNumber.toInt() >= 0) { "Номер паспорта должен содержать ровно 6 цифр!" }
     }
 
 }

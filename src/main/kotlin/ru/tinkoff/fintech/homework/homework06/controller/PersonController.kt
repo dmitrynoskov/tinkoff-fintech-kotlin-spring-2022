@@ -9,19 +9,19 @@ import ru.tinkoff.fintech.homework.homework06.service.PersonService
 class PersonController(private val personService: PersonService) {
 
     @PostMapping("/add")
-    fun addPerson(@RequestBody passportNumber: Int): Person =
+    fun addPerson(@RequestBody passportNumber: String): Person =
         personService.addPerson(passportNumber)
 
     @GetMapping("/get/{passportNumber}")
-    fun getPersonByPassportNumber(@PathVariable passportNumber: Int): Person =
+    fun getPersonByPassportNumber(@PathVariable passportNumber: String): Person =
         personService.getPersonByPassportNumber(passportNumber)
 
     @GetMapping("/find")
-    fun findPersonsBySurnameWithPagination(
-        @RequestParam surname: String,
+    fun findPersonsByNameWithPagination(
+        @RequestParam name: String,
         @RequestParam pageSize: Int,
         @RequestParam page: Int
     ): List<Person> =
-        personService.findPersonsBySurnameWithPagination(surname, pageSize, page)
+        personService.findPersonsByNameWithPagination(name, pageSize, page)
 
 }

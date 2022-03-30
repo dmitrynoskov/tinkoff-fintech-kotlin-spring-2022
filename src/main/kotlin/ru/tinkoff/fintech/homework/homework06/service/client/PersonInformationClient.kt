@@ -13,8 +13,8 @@ class PersonInformationClient(
     @Value("\${person.information.address}") private val personInformationClientAddress: String
 ) {
 
-    fun getPerson(passportNumber: Int): Person? = try {
-        restTemplate.getForObject<Person>("$personInformationClientAddress$GET_PERSON_BY_PASSPORT")
+    fun getPerson(passportNumber: String): Person? = try {
+        restTemplate.getForObject<Person>("$personInformationClientAddress$GET_PERSON_BY_PASSPORT", passportNumber)
     } catch (e: HttpClientErrorException.NotFound) {
         null
     }
