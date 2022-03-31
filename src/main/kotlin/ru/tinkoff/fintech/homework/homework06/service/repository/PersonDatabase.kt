@@ -24,5 +24,4 @@ class PersonDatabase {
             .drop(pageSize * (page - 1))
             .take(pageSize)
             .toList()
-
 }

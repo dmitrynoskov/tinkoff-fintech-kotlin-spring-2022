@@ -31,7 +31,9 @@ class PersonService(
     }
 
     private fun validateNumber(passportNumber: String) {
-        require(passportNumber.length == 6 && passportNumber.toInt() >= 0) { "Номер паспорта должен содержать ровно 6 цифр!" }
+        require(passportNumber.length == 6 && passportNumber.toInt() >= 0) {
+            "Номер паспорта должен содержать ровно 6 цифр!"
+        }
     }
 
 }
