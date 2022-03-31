@@ -1,8 +1,7 @@
-package ru.tinkoff.fintech.tests.homework05
+package ru.tinkoff.fintech.homework.homework05
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import ru.tinkoff.fintech.homework.homework05.*
 
 class TestAircraftService {
     private val fleet = listOf(

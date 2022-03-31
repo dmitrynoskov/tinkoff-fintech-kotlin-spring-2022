@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.tests.homework03
+package ru.tinkoff.fintech.homework.homework03
 
 import io.mockk.clearAllMocks
 import io.mockk.every

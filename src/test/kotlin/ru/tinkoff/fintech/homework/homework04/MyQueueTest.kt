@@ -1,4 +1,4 @@
-package ru.tinkoff.fintech.tests.homework04
+package ru.tinkoff.fintech.homework.homework04
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
