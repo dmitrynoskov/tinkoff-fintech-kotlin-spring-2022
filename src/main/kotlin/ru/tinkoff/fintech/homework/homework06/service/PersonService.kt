@@ -14,7 +14,7 @@ class PersonService(
     fun addPerson(passportNumber: String): Person {
         validateNumber(passportNumber)
         val person = personInformationClient.getPerson(passportNumber)
-        checkNotNull(person) { "Сервис не смог найти данные человека!" }
+        checkNotNull(person) { "Сервис не смог найти данные человека с номером паспорта $passportNumber!" }
         personDatabase.savePerson(person)
         return person
     }
@@ -22,7 +22,7 @@ class PersonService(
     fun getPersonByPassportNumber(passportNumber: String): Person {
         validateNumber(passportNumber)
         val person = personDatabase.getPersonByPassport(passportNumber)
-        return requireNotNull(person) { "Человека с такими паспортными данными нет в базе!" }
+        return requireNotNull(person) { "Человека с номером паспорта $passportNumber нет в базе!" }
     }
 
     fun findPersonsByNameWithPagination(name: String, pageSize: Int, page: Int): List<Person> {
