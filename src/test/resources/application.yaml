@@ -1,6 +1,12 @@
 spring:
   application.name: spring-app
   profiles.active: test
+  datasource.url: jdbc:h2:mem:testdb
+  datasource.driverClassName: org.h2.Driver
+  datasource.username: sa
+  datasource.password: sa
+  liquibase.change-log: db/changelog/db.changelog-master.xml
+  jpa.show-sql: true
 server.port: 9000
 
 person.information.address: http://localhost:9001

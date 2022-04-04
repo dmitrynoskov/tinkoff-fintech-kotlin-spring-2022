@@ -1,0 +1,33 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="Dmitry" id="create">
+        <sql>
+            create table persons
+            (
+                passport_number varchar(6) primary key,
+                first_name varchar(50) not null,
+                last_name varchar(50) not null,
+                birth_date date not null
+            )
+        </sql>
+    </changeSet>
+    <changeSet author="Dmitry" id="fill">
+        <sql>
+            insert into persons values ('000000', 'Anna', 'James', '2000-01-10');
+            insert into persons values ('111111', 'Anna', 'Dias', '2001-11-19');
+            insert into persons values ('222222', 'Anna', 'Porch', '1995-06-08');
+            insert into persons values ('333333', 'Anna', 'Anderson', '1998-10-05');
+            insert into persons values ('444444', 'Anna', 'Robins', '2001-01-30');
+            insert into persons values ('555555', 'Andrew', 'James', '1995-02-01');
+            insert into persons values ('666666', 'Jacob', 'Fill', '1999-03-18');
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

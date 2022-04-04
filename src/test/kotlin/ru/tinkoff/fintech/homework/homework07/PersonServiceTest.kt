@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.post
 import ru.tinkoff.fintech.homework.homework07.model.Person
 import ru.tinkoff.fintech.homework.homework07.service.client.PersonInformationClient
 import ru.tinkoff.fintech.homework.homework07.repository.PersonDatabase
+import ru.tinkoff.fintech.homework.homework07.repository.UserDao
 import java.time.LocalDate
 import java.time.Month
 import kotlin.text.Charsets.UTF_8
@@ -33,12 +34,11 @@ class PersonServiceTest(private val mockMvc: MockMvc, private val objectMapper: 
     private lateinit var personInformationClient: PersonInformationClient
 
     @SpykBean
-    private lateinit var personDatabase: PersonDatabase
+    private lateinit var userDao: UserDao
 
     override fun extensions(): List<Extension> = listOf(SpringExtension)
 
     override fun beforeSpec(spec: Spec) {
-        presavePersonsInDatabase()
         every { personInformationClient.getPerson(AnnaJames.passportNumber) } returns AnnaJames
         every { personInformationClient.getPerson(OscarWild.passportNumber) } returns OscarWild
         every { personInformationClient.getPerson(notFoundInClientPassportNumber) } returns null
@@ -129,13 +129,4 @@ class PersonServiceTest(private val mockMvc: MockMvc, private val objectMapper: 
         private const val negativePassportNumber = "-111111"
     }
 
-    private fun presavePersonsInDatabase() {
-        personDatabase.savePerson(AnnaJames)
-        personDatabase.savePerson(AnnaDias)
-        personDatabase.savePerson(AnnaPorch)
-        personDatabase.savePerson(AnnaAnderson)
-        personDatabase.savePerson(AnnaRobins)
-        personDatabase.savePerson(AndrewJames)
-        personDatabase.savePerson(JacobFill)
-    }
 }

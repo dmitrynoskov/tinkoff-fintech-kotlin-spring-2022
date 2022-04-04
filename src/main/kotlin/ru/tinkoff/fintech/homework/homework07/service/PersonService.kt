@@ -4,30 +4,31 @@ import org.springframework.stereotype.Service
 import ru.tinkoff.fintech.homework.homework07.model.Person
 import ru.tinkoff.fintech.homework.homework07.service.client.PersonInformationClient
 import ru.tinkoff.fintech.homework.homework07.repository.PersonDatabase
+import ru.tinkoff.fintech.homework.homework07.repository.UserDao
 
 @Service
 class PersonService(
     private val personInformationClient: PersonInformationClient,
-    private val personDatabase: PersonDatabase
+    private val userDao: UserDao
 ) {
 
     fun addPerson(passportNumber: String): Person {
         validateNumber(passportNumber)
         val person = personInformationClient.getPerson(passportNumber)
         checkNotNull(person) { "Сервис не смог найти данные человека с номером паспорта $passportNumber!" }
-        personDatabase.savePerson(person)
+        userDao.savePerson(person)
         return person
     }
 
     fun getPersonByPassportNumber(passportNumber: String): Person {
         validateNumber(passportNumber)
-        val person = personDatabase.getPersonByPassport(passportNumber)
+        val person = userDao.getPersonByPassport(passportNumber)
         return requireNotNull(person) { "Человека с номером паспорта $passportNumber нет в базе!" }
     }
 
     fun findPersonsByNameWithPagination(name: String, pageSize: Int, page: Int): List<Person> {
         require(page > 0 && pageSize > 0) { "Номер и размер странцы должны быть положительным числом!" }
-        return personDatabase.findPersonsByNameWithPagination(name, pageSize, page)
+        return userDao.findPersonsByNameWithPagination(name, pageSize, page)
     }
 
     private fun validateNumber(passportNumber: String) {
