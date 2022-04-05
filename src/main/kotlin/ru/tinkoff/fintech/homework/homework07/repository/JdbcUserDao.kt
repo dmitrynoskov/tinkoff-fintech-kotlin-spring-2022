@@ -2,36 +2,44 @@ package ru.tinkoff.fintech.homework.homework07.repository
 
 import org.springframework.context.annotation.Primary
 import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.jdbc.core.PreparedStatementSetter
 import org.springframework.jdbc.core.RowMapper
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Repository
 import ru.tinkoff.fintech.homework.homework07.model.Person
 import java.sql.ResultSet
 
-@Primary
-@Service
+//@Primary
+@Repository
 class JdbcUserDao(val jdbcTemplate: JdbcTemplate) : UserDao {
 
     override fun savePerson(person: Person) {
         jdbcTemplate.update(
-            "insert into persons(first_name, last_name, birth_date, passport_number) values (?, ?, ?, ?)",
+            "merge into persons (first_name, last_name, birth_date, passport_number) key (passport_number) values (?, ?, ?, ?)",
             person.name,
             person.surname,
             person.birthDate,
             person.passportNumber
         )
-        //TODO("сделать апдейт, если человек уже есть")
     }
 
     override fun getPersonByPassport(passportNumber: String): Person? {
         return jdbcTemplate.queryForStream(
-            "select * from persons where passport_number = $passportNumber",
+            "select * from persons where passport_number = ?",
+            PreparedStatementSetter {
+                it.setString(1, passportNumber)
+            },
             PersonMapper
         ).findAny().orElse(null)
     }
 
     override fun findPersonsByNameWithPagination(name: String, pageSize: Int, page: Int): List<Person> {
         return jdbcTemplate.query(
-            "select * from persons where first_name = '$name' order by last_name limit $pageSize offset ${pageSize * (page - 1)}",
+            "select * from persons where first_name = ? order by last_name limit ? offset ?",
+            PreparedStatementSetter {
+                it.setString(1, name)
+                it.setInt(2, pageSize)
+                it.setInt(3, pageSize * page)
+            },
             PersonMapper
         )
     }

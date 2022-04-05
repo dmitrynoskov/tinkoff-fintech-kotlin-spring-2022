@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate
 import javax.sql.DataSource
 
 @Configuration
-@EnableJpaRepositories
+@EnableJpaRepositories(basePackages = ["ru.tinkoff.fintech.homework.homework07"])
 class JdbcConfiguration {
 
     @Bean

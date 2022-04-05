@@ -19,8 +19,8 @@ class PersonController(private val personService: PersonService) {
     @GetMapping("/find")
     fun findPersonsByNameWithPagination(
         @RequestParam name: String,
-        @RequestParam pageSize: Int,
-        @RequestParam page: Int
+        @RequestParam pageSize: Int = 10,
+        @RequestParam page: Int = 0
     ): List<Person> =
         personService.findPersonsByNameWithPagination(name, pageSize, page)
 

@@ -3,7 +3,6 @@ package ru.tinkoff.fintech.homework.homework07.service
 import org.springframework.stereotype.Service
 import ru.tinkoff.fintech.homework.homework07.model.Person
 import ru.tinkoff.fintech.homework.homework07.service.client.PersonInformationClient
-import ru.tinkoff.fintech.homework.homework07.repository.PersonDatabase
 import ru.tinkoff.fintech.homework.homework07.repository.UserDao
 
 @Service
@@ -27,7 +26,8 @@ class PersonService(
     }
 
     fun findPersonsByNameWithPagination(name: String, pageSize: Int, page: Int): List<Person> {
-        require(page > 0 && pageSize > 0) { "Номер и размер странцы должны быть положительным числом!" }
+        require(page >= 0) { "Номер странцы не может быть отрицательным!" }
+        require(pageSize > 0) { "Размер странцы должен быть больше нуля!" }
         return userDao.findPersonsByNameWithPagination(name, pageSize, page)
     }
 

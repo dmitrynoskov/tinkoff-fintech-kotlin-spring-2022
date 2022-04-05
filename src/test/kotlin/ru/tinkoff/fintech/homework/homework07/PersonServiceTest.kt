@@ -3,10 +3,9 @@ package ru.tinkoff.fintech.homework.homework07
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.ninjasquad.springmockk.MockkBean
-import com.ninjasquad.springmockk.SpykBean
 import io.kotest.core.extensions.Extension
-import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.FeatureSpec
+import io.kotest.core.test.TestCase
 import io.kotest.extensions.spring.SpringExtension
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -19,9 +18,8 @@ import org.springframework.test.web.servlet.ResultActionsDsl
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 import ru.tinkoff.fintech.homework.homework07.model.Person
-import ru.tinkoff.fintech.homework.homework07.service.client.PersonInformationClient
-import ru.tinkoff.fintech.homework.homework07.repository.PersonDatabase
 import ru.tinkoff.fintech.homework.homework07.repository.UserDao
+import ru.tinkoff.fintech.homework.homework07.service.client.PersonInformationClient
 import java.time.LocalDate
 import java.time.Month
 import kotlin.text.Charsets.UTF_8
@@ -33,24 +31,32 @@ class PersonServiceTest(private val mockMvc: MockMvc, private val objectMapper: 
     @MockkBean
     private lateinit var personInformationClient: PersonInformationClient
 
-    @SpykBean
     private lateinit var userDao: UserDao
 
     override fun extensions(): List<Extension> = listOf(SpringExtension)
 
-    override fun beforeSpec(spec: Spec) {
+    override fun beforeTest(testCase: TestCase) {
         every { personInformationClient.getPerson(AnnaJames.passportNumber) } returns AnnaJames
         every { personInformationClient.getPerson(OscarWild.passportNumber) } returns OscarWild
+        every { personInformationClient.getPerson(JacobJackson.passportNumber) } returns JacobJackson
         every { personInformationClient.getPerson(notFoundInClientPassportNumber) } returns null
     }
 
     init {
         feature("add person") {
-            scenario("success") {
+            scenario("success - addition new person") {
                 getStatusCodeOfGetPersonByPassportNumber(OscarWild.passportNumber) shouldBe HttpStatus.BAD_REQUEST.value()
                 val person = addPerson(OscarWild.passportNumber)
                 person shouldBe OscarWild
                 getStatusCodeOfGetPersonByPassportNumber(OscarWild.passportNumber) shouldBe HttpStatus.OK.value()
+            }
+            scenario("success - updating person in database") {
+                JacobFill.passportNumber shouldBe JacobJackson.passportNumber
+                val oldPerson = getPersonByPassportNumber(JacobFill.passportNumber)
+                oldPerson shouldBe JacobFill
+                addPerson(JacobJackson.passportNumber)
+                val newPerson = getPersonByPassportNumber(JacobJackson.passportNumber)
+                newPerson shouldBe JacobJackson
             }
             scenario("failure - wrong passport number format") {
                 getStatusCodeOfAddPerson(illegalPassportNumberLength) shouldBe HttpStatus.BAD_REQUEST.value()
@@ -71,7 +77,7 @@ class PersonServiceTest(private val mockMvc: MockMvc, private val objectMapper: 
         }
         feature("get paginated list") {
             scenario("success") {
-                val actualList = findPersonsByNameWithPagination("Anna", 2, 2)
+                val actualList = findPersonsByNameWithPagination("Anna", 2, 1)
                 val expectedList = listOf(AnnaJames, AnnaPorch)
                 actualList shouldBe expectedList
             }
@@ -83,7 +89,7 @@ class PersonServiceTest(private val mockMvc: MockMvc, private val objectMapper: 
             scenario("failure - wrong pagination format") {
                 getStatusCodeOfFindPersonsByNameWithPagination("Anna", 0, 1) shouldBe
                         HttpStatus.BAD_REQUEST.value()
-                getStatusCodeOfFindPersonsByNameWithPagination("Anna", 1, 0) shouldBe
+                getStatusCodeOfFindPersonsByNameWithPagination("Anna", 1, -1) shouldBe
                         HttpStatus.BAD_REQUEST.value()
             }
         }
@@ -121,6 +127,7 @@ class PersonServiceTest(private val mockMvc: MockMvc, private val objectMapper: 
         private val AnnaRobins = Person("Anna", "Robins", LocalDate.of(2001, Month.JANUARY, 30), "444444")
         private val AndrewJames = Person("Andrew", "James", LocalDate.of(1995, Month.FEBRUARY, 1), "555555")
         private val JacobFill = Person("Jacob", "Fill", LocalDate.of(1999, Month.MARCH, 18), "666666")
+        private val JacobJackson = Person("Jacob", "Jackson", LocalDate.of(1999, Month.MARCH, 18), "666666")
         private val OscarWild = Person("Oscar", "Wild", LocalDate.of(2000, Month.AUGUST, 9), "777777")
 
         private const val notInDatabasePassportNumber = "999999"
