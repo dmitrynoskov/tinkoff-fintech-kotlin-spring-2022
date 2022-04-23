@@ -5,4 +5,4 @@ import org.springframework.stereotype.Repository
 import ru.tinkoff.fintech.homework.homework09.model.Person
 
 @Repository
-interface UserRepository : JpaRepository<Person, String> {}
+interface UserRepository : JpaRepository<Person, String>

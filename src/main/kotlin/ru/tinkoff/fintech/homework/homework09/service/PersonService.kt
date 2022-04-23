@@ -6,8 +6,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Service
 import ru.tinkoff.fintech.homework.homework09.model.Person
-import ru.tinkoff.fintech.homework.homework09.service.client.PersonInformationClient
 import ru.tinkoff.fintech.homework.homework09.repository.UserDao
+import ru.tinkoff.fintech.homework.homework09.service.client.PersonInformationClient
 
 @Service
 class PersonService(
@@ -16,12 +16,11 @@ class PersonService(
 ) {
 
     fun addPerson(passportNumber: String) {
+        validateNumber(passportNumber)
         CoroutineScope(Dispatchers.Default).launch {
-            validateNumber(passportNumber)
             val person = personInformationClient.getPerson(passportNumber)
-            checkNotNull(person) { "Сервис не смог найти данные человека с номером паспорта $passportNumber!" }
             withContext(Dispatchers.IO) {
-                userDao.savePerson(person)
+                person?.let { userDao.savePerson(it) }
             }
         }
     }

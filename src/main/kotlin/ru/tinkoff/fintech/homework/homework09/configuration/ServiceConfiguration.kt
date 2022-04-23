@@ -15,5 +15,3 @@ class ServiceConfiguration {
 
 }
 
-private const val CONNECT_TIMEOUT_IN_SECONDS = 30L
-private const val READ_TIMEOUT_IN_SECONDS = 60L
