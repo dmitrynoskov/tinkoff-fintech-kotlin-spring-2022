@@ -12,7 +12,6 @@
 |4| [Коллекции, часть 1](tasks/task04.md) |done|
 |5| [Коллекции, часть 2](tasks/task05.md) |done|
 |6| [Spring](tasks/task06.md)             |done|
-|7| Database                              ||
+|7| [Database](tasks/task07.md)           |done|
 |8| Concurrency                           ||
 |9| Coroutines                            ||
-
