@@ -29,5 +29,23 @@
             insert into persons values ('666666', 'Jacob', 'Fill', '1999-03-18');
         </sql>
     </changeSet>
+    <changeSet author="Dmitry" id="homework13">
+        <sql>
+            create table events
+            (
+                id identity primary key,
+                type varchar(5) not null check (type in ('SMS', 'EMAIL', 'PUSH', 'NO')),
+                body varchar not null,
+                status varchar(10) not null check (status in ('NEW', 'IN_PROCESS', 'DONE', 'ERROR'))
+            );
+        </sql>
+    </changeSet>
+    <changeSet author="Dmitry" id="homework13_fill">
+        <sql>
+            insert into events values (0, 'SMS', 'simple sms 0', 'NEW');
+            insert into events values (1, 'EMAIL', 'simple email 0', 'NEW');
+            insert into events values (2, 'PUSH', 'simple push 0', 'NEW');
+        </sql>
+    </changeSet>
 
 </databaseChangeLog>

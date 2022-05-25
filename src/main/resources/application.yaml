@@ -7,6 +7,12 @@ spring:
   datasource.password: sa
   liquibase.change-log: db/changelog/db.changelog-master.xml
   jpa.show-sql: true
+  activemq:
+    in-memory: true
+    packages:
+      trusted: ru.tinkoff.fintech.homework.homework13
 server.port: 9000
 
 person.information.address: http://localhost:9001
+
+cron: "0 0 * * * *"
